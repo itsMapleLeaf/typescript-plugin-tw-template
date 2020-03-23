@@ -1,5 +1,7 @@
 # typescript-plugin-tw-template
 
+Provides autocomplete for tailwind classes in `tw`\`...\` tagged template syntax, like [twin.macro](https://github.com/ben-rogerson/twin.macro)
+
 ## Install
 
 ```bash
@@ -24,8 +26,10 @@ Add it to the `"plugins"` section in `tsconfig.json` or `jsconfig.json`
 
 The plugin will read from a custom `tailwind.config.js` file at the project root, or use the default config
 
+**Make sure you're using the workspace TS version!**
+
 ## TODO
 
-- [ ] Show CSS source for class names in autocomplete
-- [ ] Warnings on unknown tailwind classes
+- [ ] Show CSS source for class names in autocomplete info
 - [ ] Show CSS source when hovering over class names
+- [ ] Warnings on unknown tailwind classes
