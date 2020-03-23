@@ -1,6 +1,6 @@
 {
-  "name": "twin-macro-autocomplete",
-  "version": "1.0.0",
+  "name": "typescript-plugin-tw-template",
+  "version": "0.1.0",
   "author": "kingdaro",
   "license": "MIT",
   "main": "build/index.js",
