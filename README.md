@@ -35,3 +35,4 @@ The plugin will read from a custom `tailwind.config.js` file at the project root
 - [ ] Show CSS source when hovering over class names
 - [ ] Warnings on unknown tailwind classes
 - [ ] Filter out already used class names in autocomplete
+- [ ] Tests
