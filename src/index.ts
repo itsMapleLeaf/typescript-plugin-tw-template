@@ -1,7 +1,10 @@
 import { join } from "path"
 import { decorateWithTemplateLanguageService } from "typescript-template-language-service-decorator"
 import ts from "typescript/lib/tsserverlibrary"
-import { Context, createLanguageService } from "./language-service"
+import {
+  createLanguageService,
+  LanguageServiceContext,
+} from "./language-service"
 import { createLogFunction } from "./log"
 import { populateClassNames } from "./tailwind"
 
@@ -10,7 +13,7 @@ export = function init(mod: { typescript: typeof ts }) {
     create(info: ts.server.PluginCreateInfo): ts.LanguageService {
       const log = createLogFunction(info)
 
-      const context: Context = {
+      const context: LanguageServiceContext = {
         rules: [],
       }
 

@@ -1,7 +1,10 @@
 import postcss from "postcss"
-import { Context } from "./language-service"
+import { LanguageServiceContext } from "./language-service"
 
-export async function populateClassNames(context: Context, configPath: string) {
+export async function populateClassNames(
+  context: LanguageServiceContext,
+  configPath: string,
+) {
   const result = await postcss(require("tailwindcss")(configPath)).process(
     `@tailwind utilities;`,
   )

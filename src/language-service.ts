@@ -1,7 +1,8 @@
 import { TemplateLanguageService } from "typescript-template-language-service-decorator"
 import ts from "typescript/lib/tsserverlibrary"
+import { uniqueBy } from "./helpers"
 
-export type Context = {
+export type LanguageServiceContext = {
   rules: {
     className: string
     source?: string
@@ -9,19 +10,32 @@ export type Context = {
 }
 
 export function createLanguageService(
-  context: Context,
+  languageServiceContext: LanguageServiceContext,
 ): TemplateLanguageService {
   return {
-    getCompletionsAtPosition() {
-      return {
-        isGlobalCompletion: false,
-        isMemberCompletion: false,
-        isNewIdentifierLocation: false,
-        entries: context.rules.map<ts.CompletionEntry>((rule) => ({
+    getCompletionsAtPosition(templateContext) {
+      const existingClasses = new Set(
+        templateContext.text.split(/\s+/).filter(Boolean),
+      )
+
+      const uniqueRules = uniqueBy(
+        languageServiceContext.rules,
+        (rule) => rule.className,
+      )
+
+      const entries = uniqueRules
+        .filter((rule) => !existingClasses.has(rule.className))
+        .map<ts.CompletionEntry>((rule) => ({
           name: rule.className,
           sortText: rule.className,
           kind: ts.ScriptElementKind.string,
-        })),
+        }))
+
+      return {
+        entries,
+        isGlobalCompletion: false,
+        isMemberCompletion: false,
+        isNewIdentifierLocation: false,
       }
     },
   }
