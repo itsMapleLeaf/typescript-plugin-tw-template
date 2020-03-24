@@ -38,5 +38,3 @@ The plugin will read from a custom `tailwind.config.js` file at the project root
 - [x] Filter out already used class names in autocomplete
 - [x] Unit Tests
 - [ ] Integration / e2e tests (?)
-
-PRs are welcome! ❤
