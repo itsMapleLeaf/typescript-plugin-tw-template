@@ -8,7 +8,7 @@
     "build"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "trash build && tsc",
     "test": "jest",
     "prepublishOnly": "yarn test && yarn build"
   },
@@ -25,6 +25,7 @@
     "@typescript-eslint/parser": "^2.24.0",
     "eslint": "^6.8.0",
     "jest": "^25.1.0",
+    "trash-cli": "^3.0.0",
     "ts-jest": "^25.2.1"
   }
 }
