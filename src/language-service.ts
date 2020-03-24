@@ -1,12 +1,13 @@
 import { TemplateLanguageService } from "typescript-template-language-service-decorator"
 import ts from "typescript/lib/tsserverlibrary"
-import { regexExec, uniqueBy } from "./helpers"
+import { regexExec } from "./helpers"
 
 export type LanguageServiceContext = {
   rules: {
     className: string
     source?: string
   }[]
+  classNameSet: Set<string>
 }
 
 export function createLanguageService(
@@ -18,12 +19,7 @@ export function createLanguageService(
         templateContext.text.split(/\s+/).filter(Boolean),
       )
 
-      const uniqueRules = uniqueBy(
-        languageServiceContext.rules,
-        (rule) => rule.className,
-      )
-
-      const entries = uniqueRules
+      const entries = languageServiceContext.rules
         .filter((rule) => !templateClasses.has(rule.className))
         .map<ts.CompletionEntry>((rule) => ({
           name: rule.className,
@@ -40,10 +36,6 @@ export function createLanguageService(
     },
 
     getSemanticDiagnostics(templateContext) {
-      const availableClasses = new Set(
-        languageServiceContext.rules.map((rule) => rule.className),
-      )
-
       const templateClasses = [...regexExec(/\S+/g, templateContext.text)].map(
         (match) => ({
           className: match[0],
@@ -53,7 +45,10 @@ export function createLanguageService(
       )
 
       return templateClasses
-        .filter(({ className }) => !availableClasses.has(className))
+        .filter(
+          ({ className }) =>
+            !languageServiceContext.classNameSet.has(className),
+        )
         .map<ts.Diagnostic>((invalidEntry) => ({
           messageText: `unknown tailwind class "${invalidEntry.className}"`,
           start: invalidEntry.start,

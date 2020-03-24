@@ -1,5 +1,18 @@
 import { TemplateContext } from "typescript-template-language-service-decorator"
-import { createLanguageService } from "./language-service"
+import { uniqueBy } from "./helpers"
+import {
+  createLanguageService,
+  LanguageServiceContext,
+} from "./language-service"
+
+const mockContext = (classNames: string[]): LanguageServiceContext => ({
+  // TODO: consolidate unique className logic into external helper
+  rules: uniqueBy(
+    classNames.map((className) => ({ className })),
+    (rule) => rule.className,
+  ),
+  classNameSet: new Set(classNames),
+})
 
 const mockTemplateContext = (text = "") =>
   ({
@@ -13,9 +26,7 @@ const mockPosition = (line = 0, character = 0): ts.LineAndCharacter => ({
 })
 
 it("shows class names in autocomplete", () => {
-  const ls = createLanguageService({
-    rules: [{ className: "a" }, { className: "b" }, { className: "c" }],
-  })
+  const ls = createLanguageService(mockContext(["a", "b", "c"]))
 
   const { entries = [] } =
     ls.getCompletionsAtPosition?.(mockTemplateContext(), mockPosition()) || {}
@@ -26,23 +37,8 @@ it("shows class names in autocomplete", () => {
   expect(entries).toContainEqual(expect.objectContaining({ name: "c" }))
 })
 
-it("does not show duplicate classes", () => {
-  const ls = createLanguageService({
-    rules: [{ className: "a" }, { className: "b" }, { className: "b" }],
-  })
-
-  const { entries = [] } =
-    ls.getCompletionsAtPosition?.(mockTemplateContext(), mockPosition()) || {}
-
-  expect(entries).toHaveLength(2)
-  expect(entries).toContainEqual(expect.objectContaining({ name: "a" }))
-  expect(entries).toContainEqual(expect.objectContaining({ name: "b" }))
-})
-
 it("gives warnings on invalid class names", () => {
-  const ls = createLanguageService({
-    rules: [{ className: "a" }, { className: "b" }, { className: "c" }],
-  })
+  const ls = createLanguageService(mockContext(["a", "b", "c"]))
 
   const diagnostics = ls.getSemanticDiagnostics?.(
     mockTemplateContext(`invalid1 a invalid2`),

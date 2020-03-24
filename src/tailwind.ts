@@ -1,4 +1,5 @@
 import postcss from "postcss"
+import { uniqueBy } from "./helpers"
 import { LanguageServiceContext } from "./language-service"
 
 export async function populateClassNames(
@@ -22,4 +23,7 @@ export async function populateClassNames(
       context.rules.push({ className, source: rule.toString() })
     }
   })
+
+  context.rules = uniqueBy(context.rules, (rule) => rule.className)
+  context.classNameSet = new Set(context.rules.map((rule) => rule.className))
 }
