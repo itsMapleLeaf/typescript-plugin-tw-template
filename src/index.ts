@@ -15,6 +15,7 @@ export = function init(mod: { typescript: typeof ts }) {
 
       const context: LanguageServiceContext = {
         rules: [],
+        classNameSet: new Set(),
       }
 
       // TODO: make this configurable
