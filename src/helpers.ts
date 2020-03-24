@@ -8,3 +8,11 @@ export function uniqueBy<T>(
   }
   return [...keyedItems.values()]
 }
+
+export function* regexExec(regex: RegExp, text: string) {
+  const regexCopy = new RegExp(regex, "g")
+  let match: RegExpExecArray | null
+  while ((match = regexCopy.exec(text)) != null) {
+    yield match
+  }
+}

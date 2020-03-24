@@ -1,6 +1,6 @@
 import { TemplateLanguageService } from "typescript-template-language-service-decorator"
 import ts from "typescript/lib/tsserverlibrary"
-import { uniqueBy } from "./helpers"
+import { regexExec, uniqueBy } from "./helpers"
 
 export type LanguageServiceContext = {
   rules: {
@@ -14,7 +14,7 @@ export function createLanguageService(
 ): TemplateLanguageService {
   return {
     getCompletionsAtPosition(templateContext) {
-      const existingClasses = new Set(
+      const templateClasses = new Set(
         templateContext.text.split(/\s+/).filter(Boolean),
       )
 
@@ -24,7 +24,7 @@ export function createLanguageService(
       )
 
       const entries = uniqueRules
-        .filter((rule) => !existingClasses.has(rule.className))
+        .filter((rule) => !templateClasses.has(rule.className))
         .map<ts.CompletionEntry>((rule) => ({
           name: rule.className,
           sortText: rule.className,
@@ -37,6 +37,31 @@ export function createLanguageService(
         isMemberCompletion: false,
         isNewIdentifierLocation: false,
       }
+    },
+
+    getSemanticDiagnostics(templateContext) {
+      const availableClasses = new Set(
+        languageServiceContext.rules.map((rule) => rule.className),
+      )
+
+      const templateClasses = [...regexExec(/\S+/g, templateContext.text)].map(
+        (match) => ({
+          className: match[0],
+          start: match.index,
+          length: match[0].length,
+        }),
+      )
+
+      return templateClasses
+        .filter(({ className }) => !availableClasses.has(className))
+        .map<ts.Diagnostic>((invalidEntry) => ({
+          messageText: `unknown tailwind class "${invalidEntry.className}"`,
+          start: invalidEntry.start,
+          length: invalidEntry.length,
+          file: templateContext.node.getSourceFile(),
+          category: ts.DiagnosticCategory.Warning,
+          code: 0, // ???
+        }))
     },
   }
 }
