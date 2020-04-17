@@ -5,6 +5,8 @@ Provides editor support for `tw`\`...\` tagged template syntax, like [twin.macro
 - Autocomplete for tailwind classes
 - Warnings on unknown classes
 
+**Note:** the classes found by this plugin may be different from those supported by twin.macro or other solutions, so you may get false warnings, or some valid classes might be missing from autocomplete. YMMV
+
 ## Install
 
 ```bash
@@ -29,7 +31,7 @@ Add it to the `"plugins"` section in `tsconfig.json` or `jsconfig.json`
 
 The plugin will read from a custom `tailwind.config.js` file at the project root, or use the default config
 
-**Make sure you're using the workspace TS version!**
+**Make sure you're using the workspace TS version!** In VSCode, you can do this by opening the `tsconfig.json` or any TS file, then click on the TS version number in the bottom right.
 
 ## TODO
 
