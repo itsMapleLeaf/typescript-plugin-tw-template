@@ -1,6 +1,9 @@
 # typescript-plugin-tw-template
 
-Provides editor support for `tw`\`...\` tagged template syntax, like [twin.macro](https://github.com/ben-rogerson/twin.macro)
+Provides editor support for `tw`\`...\` tagged template syntax, like [twin.macro](https://github.com/ben-rogerson/twin.macro), including:
+
+- Autocomplete for tailwind classes
+- Warnings on unknown classes
 
 ## Install
 
