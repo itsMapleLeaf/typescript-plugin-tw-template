@@ -32,7 +32,7 @@ Add it to the `"plugins"` section in `tsconfig.json` or `jsconfig.json`
 
 The plugin will read from a custom `tailwind.config.js` file at the project root, or use the default config
 
-**Make sure you're using the workspace TS version!** In VSCode, you can do this by opening the `tsconfig.json` or any TS file, then click on the TS version number in the bottom right.
+**Make sure you're using the workspace TS version!** In VSCode, you can do this by opening any TS file, then click on the TS version number in the bottom right.
 
 ## TODO
 
