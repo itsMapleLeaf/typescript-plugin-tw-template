@@ -24,6 +24,7 @@ Add it to the `"plugins"` section in `tsconfig.json` or `jsconfig.json`
 ```json
 {
   "compilerOptions": {
+    // other options...
     "plugins": [{ "name": "typescript-plugin-tw-template" }]
   }
 }
