@@ -11,10 +11,10 @@ Provides editor support for `tw`\`...\` tagged template syntax, like [twin.macro
 
 ```bash
 # yarn
-yarn add -D typescript-plugin-tw-template
+yarn add -D typescript-plugin-tw-template tailwindcss
 
 # npm
-npm install -D typescript-plugin-tw-template
+npm install -D typescript-plugin-tw-template tailwindcss
 ```
 
 ## Usage
