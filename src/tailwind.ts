@@ -1,4 +1,5 @@
 import postcss from "postcss"
+import tailwind from "tailwindcss"
 import { uniqueBy } from "./helpers"
 import { LanguageServiceContext } from "./language-service"
 
@@ -6,7 +7,7 @@ export async function populateClassNames(
   context: LanguageServiceContext,
   configPath: string,
 ) {
-  const result = await postcss(require("tailwindcss")(configPath)).process(
+  const result = await postcss(tailwind(configPath)).process(
     `@tailwind utilities;`,
   )
 
