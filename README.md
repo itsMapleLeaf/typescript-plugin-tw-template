@@ -45,3 +45,4 @@ The plugin will read from a custom `tailwind.config.js` file at the project root
 - [x] Unit Tests
 - [ ] Support `tw` prop (?)
 - [ ] Integration / e2e tests (?)
+- [ ] Support `!` suffix from twin.macro
