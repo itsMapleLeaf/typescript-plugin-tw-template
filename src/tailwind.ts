@@ -11,7 +11,7 @@ export async function populateClassNames(
   configPath: string,
 ) {
   const result = await postcss(tailwind(configPath)).process(
-    `@tailwind utilities;`,
+    `@tailwind components; @tailwind utilities;`,
   )
 
   context.rules = []
