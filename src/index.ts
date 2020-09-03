@@ -6,17 +6,18 @@ import {
   LanguageServiceContext,
 } from "./language-service"
 import { createLogFunction } from "./log"
-import { populateClassNames } from "./tailwind"
+import { populateCompletions } from "./tailwind"
 
 export = function init(mod: { typescript: typeof ts }) {
+  const context: LanguageServiceContext = {
+    completionEntries: new Map(),
+  }
+
+  let initialized = false
+
   return {
     create(info: ts.server.PluginCreateInfo): ts.LanguageService {
       const log = createLogFunction(info)
-
-      const context: LanguageServiceContext = {
-        rules: [],
-        classNameSet: new Set(),
-      }
 
       // TODO: make this configurable
       const configPath = join(
@@ -24,9 +25,12 @@ export = function init(mod: { typescript: typeof ts }) {
         "tailwind.config.js",
       )
 
-      populateClassNames(context, configPath).catch((error) => {
-        log("an error occured:", String(error))
-      })
+      if (!initialized) {
+        populateCompletions(context, configPath).catch((error) => {
+          log("an error occured:", String(error))
+        })
+        initialized = true
+      }
 
       return decorateWithTemplateLanguageService(
         mod.typescript,

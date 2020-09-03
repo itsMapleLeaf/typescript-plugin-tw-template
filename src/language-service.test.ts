@@ -1,17 +1,12 @@
 import { TemplateContext } from "typescript-template-language-service-decorator"
-import { uniqueBy } from "./helpers"
 import {
   createLanguageService,
   LanguageServiceContext,
 } from "./language-service"
+import { addClassNameToCompletions } from "./tailwind"
 
 const mockContext = (classNames: string[]): LanguageServiceContext => ({
-  // TODO: consolidate unique className logic into external helper
-  rules: uniqueBy(
-    classNames.map((className) => ({ className })),
-    (rule) => rule.className,
-  ),
-  classNameSet: new Set(classNames),
+  completionEntries: new Map(classNames.map((name) => [name, { name }])),
 })
 
 const mockTemplateContext = (text = "") =>
@@ -61,4 +56,24 @@ it("gives warnings on invalid class names", () => {
       length: 8,
     }),
   )
+})
+
+it("shows variants separate from class names", () => {
+  const context = mockContext([])
+
+  addClassNameToCompletions("text-white", context)
+  addClassNameToCompletions("hover:text-white", context)
+  addClassNameToCompletions("md:hover:text-white", context)
+
+  const ls = createLanguageService(context)
+
+  const { entries = [] } =
+    ls.getCompletionsAtPosition?.(mockTemplateContext(), mockPosition()) || {}
+
+  expect(entries).toHaveLength(3)
+  expect(entries).toContainEqual(
+    expect.objectContaining({ name: "text-white" }),
+  )
+  expect(entries).toContainEqual(expect.objectContaining({ name: "hover:" }))
+  expect(entries).toContainEqual(expect.objectContaining({ name: "md:" }))
 })
