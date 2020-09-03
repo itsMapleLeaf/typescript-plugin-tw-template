@@ -71,5 +71,8 @@
     "semi": false,
     "trailingComma": "all",
     "quoteProps": "consistent"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   }
 }
