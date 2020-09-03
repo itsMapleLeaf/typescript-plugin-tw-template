@@ -46,4 +46,4 @@ The plugin will read from a custom `tailwind.config.js` file at the project root
 - [ ] Support `tw` prop (?)
 - [ ] Integration / e2e tests (?)
 - [ ] Support `!` suffix from twin.macro
-- [ ] Autocomplete classes and variants separately (?)
+- [x] Autocomplete classes and variants separately (?)
