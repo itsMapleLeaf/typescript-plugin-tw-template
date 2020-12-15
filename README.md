@@ -2,7 +2,7 @@
 
 This plugin was written at a time when the [official VSCode extension](https://github.com/tailwindlabs/tailwindcss-intellisense) didn't have support for twin.macro. Recently, it added support for custom completion contexts, which gives support for tailwind intellisense outside of the class prop, _including_ for twin.macro.
 
-While it doesn't warn on unknown classes at the time of writing this, everything else the extension offers (hover info, color decorators, more speed) more than makes up for it, so I strongly recommend using it instead of this. For details on how to configure with twin.macro, [see this comment](https://github.com/tailwindlabs/tailwindcss-intellisense/issues/129). I'll keep this repo un-archived in case there are further updates.
+While it doesn't warn on unknown classes at the time of writing this, everything else the extension offers (hover info, color decorators, more speed) more than makes up for it, so I strongly recommend using it instead of this. For details on how to configure with twin.macro, [see this post](https://github.com/ben-rogerson/twin.macro/discussions/227). I'll keep this repo un-archived in case there are further updates.
 
 # typescript-plugin-tw-template
 
